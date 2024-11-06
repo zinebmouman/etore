@@ -2,6 +2,7 @@ package com.JAVA.DAO;
 
 import com.JAVA.Beans.Produit;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Set;
 
 public interface ProduitDAO {
@@ -10,4 +11,5 @@ public interface ProduitDAO {
     void deleteByID(Long produitId) throws SQLException; // Modification : void pour la méthode de suppression
     Produit getOneById(Long produitId) throws SQLException;
     Set<Produit> getAll(int idCommerce) throws SQLException;
+    List<Produit> getAllProduits();
 }

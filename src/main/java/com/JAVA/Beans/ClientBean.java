@@ -2,20 +2,20 @@ package com.JAVA.Beans;
 
 public class ClientBean {
 
-    private Long id;
+    private Long id_client;
     private String nom;
     private String adress;
     private String contact; // Change to String
     private String email; 
-    private String passwrd;
+    private String password;
 
     // Getters and Setters
-    public Long getId() {
-        return id;
+    public Long getId_client() {
+        return id_client;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId_client(Long id_client) {
+        this.id_client = id_client;
     }
 
     public String getNom() {
@@ -42,12 +42,12 @@ public class ClientBean {
         this.email = email;
     }
 
-    public String getPasswrd() { // Change method name
-        return passwrd;
+    public String getpassword() { // Change method name
+        return password;
     }
 
-    public void setPasswrd(String passwrd) { // Change method name
-        this.passwrd = passwrd;
+    public void setpassword(String password) { // Change method name
+        this.password = password;
     }
 
     public String getContact() { // Change method name

@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class ClientDaoImpl implements ClientDAO {
 
@@ -19,12 +20,12 @@ public class ClientDaoImpl implements ClientDAO {
 
     private static ClientBean map(ResultSet resultSet) throws SQLException {
         ClientBean clientBean = new ClientBean();
-        clientBean.setId(resultSet.getLong("id"));
+        clientBean.setId_client(resultSet.getLong("id_client"));
         clientBean.setNom(resultSet.getString("nom"));
         clientBean.setAdress(resultSet.getString("adress"));
         clientBean.setEmail(resultSet.getString("email"));
         clientBean.setContact(resultSet.getString("contact")); // Change to String
-        clientBean.setPasswrd(resultSet.getString("passwrd"));
+        clientBean.setpassword(resultSet.getString("password"));
         return clientBean;
     }
 
@@ -36,21 +37,51 @@ public class ClientDaoImpl implements ClientDAO {
         return preparedStatement;
     }
 
-    @Override
-    public void create(ClientBean client) throws DAOException {
-        String sql = "INSERT INTO client (nom, adresse, contact, email, passwrd) VALUES (?, ?, ?, ?, ?)";
+    
+    public void create(ClientBean client, String email, String password) throws DAOException {
+        String SQL = "INSERT INTO client (nom, adresse, contact, email, password) VALUES (?, ?, ?, ?, ?)";
+
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, client.getNom());
-            statement.setString(2, client.getAdress());
-            statement.setString(3, client.getContact()); // Change to String
-            statement.setString(4, client.getEmail());
-            statement.setString(5, client.getPasswrd());
-            statement.executeUpdate();
+             PreparedStatement clientStmt = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
+
+            clientStmt.setString(1, client.getNom());
+            clientStmt.setString(2, client.getAdress());
+            clientStmt.setString(3, client.getContact());
+            clientStmt.setString(4, client.getEmail());
+            clientStmt.setString(5, client.getpassword());
+
+            int affectedRows = clientStmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = clientStmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        long id_client = generatedKeys.getLong(1);
+                        client.setId_client(id_client);
+
+                        addUserForClient(id_client, email, password);
+                    }
+                }
+            }
         } catch (SQLException e) {
-            throw new DAOException("Erreur lors de la création du client", e);
+            throw new DAOException("Erreur lors de l'insertion du client", e);
         }
     }
+
+    public void addUserForClient(long id_client, String email, String password) throws SQLException {
+        String INSERT_USER_SQL = "INSERT INTO user (email, password, type, user_id) VALUES (?, ?, ?, ?)";
+
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement userStmt = connection.prepareStatement(INSERT_USER_SQL)) {
+
+            userStmt.setString(1, email);
+            userStmt.setString(2, password);
+            userStmt.setInt(3, 4); // Supposant que 4 représente le type d'utilisateur pour un client
+            userStmt.setLong(4, id_client);
+
+            userStmt.executeUpdate();
+        }
+    }
+
 
     @Override
     public ClientBean getClientByEmail(String email) throws DAOException {

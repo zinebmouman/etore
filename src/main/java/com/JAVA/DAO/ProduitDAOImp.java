@@ -1,13 +1,16 @@
 package com.JAVA.DAO;
 
 import com.JAVA.Beans.Produit;
+import com.JAVA.utils.DAOException;
 import com.JAVA.utils.DAOFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ProduitDAOImp implements ProduitDAO {
@@ -93,6 +96,30 @@ public class ProduitDAOImp implements ProduitDAO {
         return produits;
     }
 
+    @Override
+    public List<Produit> getAllProduits() {
+        List<Produit> produits = new ArrayList<>();
+        String sql = "SELECT * FROM produit";
+
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Produit produit = new Produit();
+                produit.setIdProduit(resultSet.getLong("id_produit"));
+                produit.setNom(resultSet.getString("nom"));
+                produit.setPrix(resultSet.getDouble("prix"));
+                produit.setIdCommerce(resultSet.getLong("id_commerce"));
+                produits.add(produit);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DAOException("Erreur lors de la récupération de la liste des produits", e);
+        }
+
+        return produits;
+    }
     private Produit map(ResultSet resultSet) throws SQLException {
         Produit produit = new Produit();
         produit.setIdProduit(resultSet.getLong("id_produit"));

@@ -27,7 +27,7 @@
               <div class="card-body">
                 <form role="form" method="POST" action="${pageContext.request.contextPath}/AuthServlet">
                   <div class="input-group input-group-outline my-3">
-                    <input type="email" name="email" placeholder="Email" class="form-control" required>
+                  <input type="email" name="email" placeholder="Email" class="form-control" required>
                   </div>
                   <div class="input-group input-group-outline mb-3">
                     <input type="password" name="password" placeholder="Password" class="form-control" required>
