@@ -11,5 +11,5 @@ public interface ProduitDAO {
     void deleteByID(Long produitId) throws SQLException; // Modification : void pour la méthode de suppression
     Produit getOneById(Long produitId) throws SQLException;
     Set<Produit> getAll(int idCommerce) throws SQLException;
-    List<Produit> getAllProduits();
+    List<Produit> getAllProduits() throws SQLException;
 }

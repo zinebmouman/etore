@@ -16,10 +16,10 @@ import java.util.Set;
 public class ProduitDAOImp implements ProduitDAO {
     private static final String INSERT_PRODUIT_SQL = "INSERT INTO produit (nom, prix, description, id_commerce) VALUES (?, ?, ?, ?);";
     private static final String SELECT_PRODUIT_BY_ID = "SELECT * FROM produit WHERE id_produit = ?;";
-    private static final String SELECT_ALL_PRODUITS = "SELECT * FROM produit WHERE id_commerce = ?;";
+    private static final String SELECT_ALL_PRODUITS_commerce = "SELECT * FROM produit WHERE id_commerce = ?;";
     private static final String DELETE_PRODUIT_BY_ID = "DELETE FROM produit WHERE id_produit = ?;";
     private static final String UPDATE_PRODUIT = "UPDATE produit SET nom = ?, prix = ?, description = ?, id_commerce = ? WHERE id_produit = ?;";
-
+    private static final String  SELECT_ALL_PRODUITS ="SELECT * FROM produit";
     private DAOFactory daoFactory;
 
     public ProduitDAOImp(DAOFactory daoFactory) {
@@ -84,7 +84,7 @@ public class ProduitDAOImp implements ProduitDAO {
         Set<Produit> produits = new HashSet<>();
 
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_PRODUITS)) {
+             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_PRODUITS_commerce)) {
              
             statement.setInt(1, idCommerce);
             ResultSet resultSet = statement.executeQuery();
@@ -97,35 +97,25 @@ public class ProduitDAOImp implements ProduitDAO {
     }
 
     @Override
-    public List<Produit> getAllProduits() {
+    public List<Produit> getAllProduits() throws SQLException {
         List<Produit> produits = new ArrayList<>();
-        String sql = "SELECT * FROM produit";
-
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
+             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_PRODUITS);
              ResultSet resultSet = statement.executeQuery()) {
-
             while (resultSet.next()) {
-                Produit produit = new Produit();
-                produit.setIdProduit(resultSet.getLong("id_produit"));
-                produit.setNom(resultSet.getString("nom"));
-                produit.setPrix(resultSet.getDouble("prix"));
-                produit.setIdCommerce(resultSet.getLong("id_commerce"));
-                produits.add(produit);
+                produits.add(map(resultSet));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new DAOException("Erreur lors de la récupération de la liste des produits", e);
         }
-
         return produits;
     }
+
     private Produit map(ResultSet resultSet) throws SQLException {
         Produit produit = new Produit();
         produit.setIdProduit(resultSet.getLong("id_produit"));
         produit.setNom(resultSet.getString("nom"));
         produit.setPrix(resultSet.getDouble("prix"));
         produit.setDescription(resultSet.getString("description"));
+        produit.setImage(resultSet.getString("Image"));
         produit.setIdCommerce(resultSet.getLong("id_commerce")); // Associe le produit à son commerce
         return produit;
     }

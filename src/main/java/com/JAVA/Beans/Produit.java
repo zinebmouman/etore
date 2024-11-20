@@ -6,21 +6,24 @@ public class Produit {
     private double prix;
     private String description;
     private Long idCommerce;
+    private String image;
 
     // Constructeurs
     public Produit() {}
 
-    public Produit(String nom, double prix, String description, Long idCommerce) {
+    public Produit(String nom, double prix , String image, String description, Long idCommerce) {
         this.nom = nom;
         this.prix = prix;
         this.description = description;
         this.idCommerce = idCommerce;
+        this.image=image;
     }
 
-    public Produit(Long idProduit, String nom, double prix, String description, Long idCommerce) {
+    public Produit(Long idProduit, String nom ,  String image, double prix, String description, Long idCommerce) {
         this.idProduit = idProduit;
         this.nom = nom;
         this.prix = prix;
+        this.image = image;
         this.description = description;
         this.idCommerce = idCommerce;
     }
@@ -29,7 +32,7 @@ public class Produit {
     public Long getIdProduit() {
         return idProduit;
     }
-
+   
     public void setIdProduit(Long idProduit) {
         this.idProduit = idProduit;
     }
@@ -37,7 +40,12 @@ public class Produit {
     public String getNom() {
         return nom;
     }
-
+    public String getimage() {
+        return image;
+    }
+    public void  setImage(String image) {
+        this.image = image;
+    }
     public void setNom(String nom) {
         this.nom = nom;
     }
@@ -69,6 +77,6 @@ public class Produit {
     @Override
     public String toString() {
         return "Produit [idProduit=" + idProduit + ", nom=" + nom + ", prix=" + prix + 
-               ", description=" + description + ", idCommerce=" + idCommerce + "]";
+               ", description=" + description + ", idCommerce=" + idCommerce + ", image=" + image + "]";
     }
 }

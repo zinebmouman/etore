@@ -1,14 +1,22 @@
 package com.JAVA.DAO;
 
 import com.JAVA.Beans.Commande;
+import com.JAVA.Beans.PanierBean;
+import com.JAVA.utils.DAOException;
 
 import java.sql.*;
 import java.util.List;
 
+
+
+import com.JAVA.Beans.Commande;
+import java.util.List;
+
 public interface CommandeDAO {
-    void addCommande(Commande commande) throws SQLException;
-    void updateCommande(Commande commande) throws SQLException;
-    Boolean deleteById(Long id_commande) throws SQLException;
-    Commande getById(Long id) throws SQLException;
-    List<Commande> getAllByCommerce(Long id_commerce) throws SQLException; // Récupérer les commandes par commerce
+	void ajouterCommande(Commande commande ) throws SQLException ;
+	void modifierEtatCommande(Long idCommande, String etat)throws SQLException;
+    List<Commande> getCommandesByClientId(Long clientId);
+    List<Commande> getALLCommandes() throws SQLException; 
+    void updateCommandeEtat(long idCommande, String nouvelEtat) throws SQLException;
 }
+

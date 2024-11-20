@@ -1,31 +1,72 @@
 package com.JAVA.Beans;
 
 public class PanierBean {
-
-	
     private int id;
-    private int utilisateurId;
-    private String produitsJSON;  // JSON format of products and quantities
+    private long clientId;
+    private int produitId;
+  
+    private int quantite;
+    private Produit produit;
 
-    // Getters et setters
+    // Constructeur par défaut
+    public PanierBean() {
+        this.quantite = 1; // Quantité par défaut
+    }
+
+    // Constructeur avec tous les attributs sauf id (géré par la base de données)
+    public PanierBean( long clientId, int produitId, int quantite) {
+        this.clientId = clientId;
+       
+        this.produitId = produitId;
+       
+        this.quantite = quantite;
+      
+    }
+
+    // Getters et Setters
     public int getId() {
-    	return id;
-    	}
+        return id;
+    }
+
     public void setId(int id) {
-    	this.id = id;
-    	}
+        this.id = id;
+    }
 
-    public int getUtilisateurId() { 
-    	return utilisateurId;
-    	}
-    public void setUtilisateurId(int utilisateurId){
-    	this.utilisateurId = utilisateurId; 
-    	}
+    public long getClientId() {
+        return clientId;
+    }
 
-    public String getProduitsJSON() {
-    	return produitsJSON; 
-    	}
-    public void setProduitsJSON(String produitsJSON) {
-    	this.produitsJSON = produitsJSON; 
-    	}
+    public void setClientId(long clientId) {
+        this.clientId = clientId;
+    }
+
+    public int getProduitId() {
+        return produitId;
+    }
+
+    public void setProduitId(int produitId) {
+        this.produitId = produitId;
+    }
+
+   
+
+    public int getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(int quantite) {
+        this.quantite = quantite;
+    }
+    public Produit getProduit() {
+        return produit;
+    }
+
+    public void setProduit(Produit produit) {
+        this.produit = produit;
+    }
+    @Override
+    public String toString() {
+        return "PanierBean [id=" + id + ", clientId=" + clientId + ", produitId=" + produitId + 
+               ", quantite=" + quantite + ", produit=" + produit + "]";
+    }
 }

@@ -24,7 +24,7 @@ public class AuthServlet extends HttpServlet {
         try {
             authDAO = DAOFactory.getInstance().getAuthDAO();
         } catch (DAOConfigurationException | SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); 
         }
     }
 
@@ -68,10 +68,12 @@ public class AuthServlet extends HttpServlet {
                     response.sendRedirect("commerce/views/index.jsp?user_id=" + userId); // Ajout de user_id à l'URL
                     break;
                 case 3:
-                    response.sendRedirect("livreur/views/index.jsp?user_id=" + userId); // Ajout de user_id à l'URL
+                	session.setAttribute("LivreurId", userId);
+                    response.sendRedirect("LivreurCommande?LivreurId=" + userId); // Ajout de user_id à l'URL
                     break;
                 case 4:
-                    response.sendRedirect("client/views/index.jsp?user_id=" + userId); // Ajout de user_id à l'URL
+                	session.setAttribute("clientId", userId);
+                	response.sendRedirect("listeProduits?clientId=" + userId);
                     break;
                 default:
                     response.sendRedirect("login.jsp?error=InvalidType");

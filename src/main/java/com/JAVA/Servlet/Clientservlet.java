@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/Clientservlet")
 public class Clientservlet extends HttpServlet {
@@ -25,14 +26,15 @@ public class Clientservlet extends HttpServlet {
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-
+       
         if ("create".equals(action)) {
             createClient(request, response);
         }
     }
 
     private void createClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("name");
+    	
+    	String name = request.getParameter("name");
         String contact = request.getParameter("contact");
         String address = request.getParameter("adress");
         String email = request.getParameter("email");
@@ -46,11 +48,19 @@ public class Clientservlet extends HttpServlet {
         clientBean.setpassword(password);
 
         try {
-            clientDAO.create(clientBean, email, password);  // Appel à la méthode create de clientDAO
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
+        	 // Crée le client et récupère l'ID
+            long clientId = clientDAO.create(clientBean, email, password);
+
+            // Stocke l'ID dans la session
+            HttpSession session = request.getSession();
+            session.setAttribute("clientId", clientId);
+
+            // Redirige vers la page index avec les produits
+            response.sendRedirect(request.getContextPath() + "/listeProduits?clientId=" +clientId);
         } catch (DAOException e) {
             throw new ServletException("Erreur lors de la création du client", e);
         }
     }
-}
+    }
+
 

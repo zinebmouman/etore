@@ -92,6 +92,8 @@ public class GererProduit extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/commerce/views/listeProduit.jsp");
         dispatcher.forward(request, response);
     }
+    
+    
 
     private void showAddForm(HttpServletRequest request, HttpServletResponse response, int idCommerce)
             throws ServletException, IOException {

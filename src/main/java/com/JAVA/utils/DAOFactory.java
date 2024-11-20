@@ -11,10 +11,14 @@ import com.JAVA.DAO.AuthDAO;
 import com.JAVA.DAO.AuthDAOImp;
 import com.JAVA.DAO.ClientDAO;
 import com.JAVA.DAO.ClientDaoImpl;
+import com.JAVA.DAO.CommandeDAO;
+import com.JAVA.DAO.CommandeDAOImp;
 import com.JAVA.DAO.CommerceDAO;
 import com.JAVA.DAO.CommerceDAOImp;
 import com.JAVA.DAO.LivreurDAO;
 import com.JAVA.DAO.LivreurDAOImpl;
+import com.JAVA.DAO.PanierDAO;
+import com.JAVA.DAO.PanierDAOImpl;
 import com.JAVA.DAO.ProduitDAO;
 import com.JAVA.DAO.ProduitDAOImp;
 
@@ -100,6 +104,13 @@ public class DAOFactory {
     
     public AuthDAO getAuthDAO() throws SQLException  {
         return new AuthDAOImp(this);
+    }
+    public PanierDAO getPanierDao() {
+        return new PanierDAOImpl(this);
+    }
+
+    public CommandeDAO getCommandeDao() {
+        return new CommandeDAOImp(this);
     }
 
     public void close() {

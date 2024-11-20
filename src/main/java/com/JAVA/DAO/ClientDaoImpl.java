@@ -38,9 +38,9 @@ public class ClientDaoImpl implements ClientDAO {
     }
 
     
-    public void create(ClientBean client, String email, String password) throws DAOException {
+    public long create(ClientBean client, String email, String password) throws DAOException {
         String SQL = "INSERT INTO client (nom, adresse, contact, email, password) VALUES (?, ?, ?, ?, ?)";
-
+        long clientId = -1;
         try (Connection connection = daoFactory.getConnection();
              PreparedStatement clientStmt = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -55,17 +55,22 @@ public class ClientDaoImpl implements ClientDAO {
             if (affectedRows > 0) {
                 try (ResultSet generatedKeys = clientStmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        long id_client = generatedKeys.getLong(1);
-                        client.setId_client(id_client);
+                        clientId = generatedKeys.getLong(1);
+                        client.setId_client(clientId);
 
-                        addUserForClient(id_client, email, password);
+                        addUserForClient(clientId, email, password);
                     }
                 }
             }
         } catch (SQLException e) {
             throw new DAOException("Erreur lors de l'insertion du client", e);
+     
         }
+      
+		return clientId;
     }
+    
+    
 
     public void addUserForClient(long id_client, String email, String password) throws SQLException {
         String INSERT_USER_SQL = "INSERT INTO user (email, password, type, user_id) VALUES (?, ?, ?, ?)";

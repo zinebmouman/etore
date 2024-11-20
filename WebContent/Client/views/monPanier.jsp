@@ -1,10 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.JAVA.Beans.PanierBean" %>
+
 <!DOCTYPE html>
-
-
 <html lang="en">
-  <head>
+   <head>
     <!-- Basic metas -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -201,62 +203,68 @@
                </div>
             </div>
          </div>
-
-<div id="produits">
-    <h1>Liste de Tous les Produits</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Prix</th>
-                <th>Description</th>
-                <th>Image</th>
-                   <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="produit" items="${produits}">
+         <c:choose>
+    <c:when test="${not empty requestScope.produitsPanier}">
+        <table>
+            <thead>
                 <tr>
-                    <td>${produit.nom}</td>
-                    <td>${produit.prix}</td>
-                    <td>${produit.description}</td>
-                    <td>
-                        <c:if test="${not empty produit.image}">
-                            <img src="${produit.image}" alt="${produit.nom}">
-                        </c:if>
-                        <c:if test="${empty produit.image}">
-                            Pas d'image
-                        </c:if>
-                    </td>
-                    <td>
-    <form action="panier?action=ajouter" method="post">
-        <input type="hidden" name="produitId" value="${produit.idProduit}">
-        <input type="hidden" name="clientId" value="${user_id}">
-        <button type="submit">Ajouter au panier</button>
-    </form>
-</td>
+                    <th>Nom du produit</th>
+                    <th>Image</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Modifier Quantité</th>
+                    <th>Supprimer</th>
                 </tr>
-            </c:forEach>
-        </tbody>
-    </table>
-</div>
-  <!-- Javascript files-->
-      <script src="${pageContext.request.contextPath}/Client/assets/js/jquery.min.js"></script>
-      <script src="${pageContext.request.contextPath}/Client/assets/js/popper.min.js"></script>
-      <script src="${pageContext.request.contextPath}/Client/assets/js/bootstrap.bundle.min.js"></script>
-      <script src="${pageContext.request.contextPath}/Client/assets/js/jquery-3.0.0.min.js"></script>
-      <script src="${pageContext.request.contextPath}/Client/assets/js/plugin.js"></script>
-      <!-- sidebar -->
-      <script src="${pageContext.request.contextPath}/Client/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
-      <script src="${pageContext.request.contextPath}/Client/assets/js/custom.js"></script>
-      <script>
-         function openNav() {
-           document.getElementById("mySidenav").style.width = "250px";
-         }
-         
-         function closeNav() {
-           document.getElementById("mySidenav").style.width = "0";
-         }
-      </script>
+            </thead>
+            <tbody>
+                <c:forEach var="panier" items="${requestScope.produitsPanier}">
+                    <tr>
+                        <td>${panier.produit.nom}</td>
+                        <td><img src="${panier.produit.image}" alt="${panier.produit.nom}"/></td>
+                        <td>${panier.produit.prix} MAD</td>
+                        <td>${panier.quantite}</td>
+                        <td>
+                            <form action="panier?action=modifier&clientId=<%= clientId != null ? clientId : "" %>"  method="post">
+                                <input type="number" name="quantite" value="${panier.quantite}" min="1" />
+                                <input type="hidden" name="action" value="modifier" />
+                                <input type="hidden" name="produitId" value="${panier.produitId}" />
+
+                                <button type="submit">Modifier</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="panier?action=supprimer&clientId=<%= clientId != null ? clientId : "" %>" method="post">
+                                <input type="hidden" name="action" value="supprimer" />
+                                 <input type="hidden" name="produitId" value="${panier.produitId}" />
+                                <button type="submit">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+      <form action="panier?action=commander&clientId=<%= clientId != null ? clientId : "" %>" method="post">
+         <input type="hidden" name="produitId" value="${panier.id}" />
+    <button type="submit">Commander</button>
+</form>
+    </c:when>
+    <c:otherwise>
+        <p>Votre panier est vide.</p>
+    </c:otherwise>
+</c:choose>
+   <!-- Footer Section -->
+    <div class="footer_section">
+        <div class="footer_menu">
+            <ul>
+                <li><a href="#">Best Sellers</a></li>
+                <li><a href="#">Gift Ideas</a></li>
+                <li><a href="#">New Releases</a></li>
+                <li><a href="#">Today's Deals</a></li>
+                <li><a href="#">Customer Service</a></li>
+            </ul>
+        </div>
+        <p>Help Line Number: <a href="#">+1 1800 1200 1200</a></p>
+    </div>
+
 </body>
 </html>

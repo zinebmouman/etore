@@ -6,7 +6,7 @@ import com.JAVA.Beans.ClientBean;
 import com.JAVA.Beans.User;
 import  com.JAVA.utils.DAOException;
 public interface ClientDAO {
-    void create(ClientBean clientBean ,String email, String password) throws DAOException ;
+    long create(ClientBean clientBean ,String email, String password) throws DAOException ;
 		
 		
 	

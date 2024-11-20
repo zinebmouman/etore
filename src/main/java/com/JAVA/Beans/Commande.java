@@ -6,19 +6,28 @@ public class Commande {
     private Long id_commande;
     private Date date_commande;
     private String etat;
-    private Long id_client; // ID du client, doit correspondre à la table Client
-    private Long id_commerce; // ID du commerce, doit correspondre à la table Commerce
+    private Long id_client;
+    private Long id_commerce;
+    private Long id_produit;
+    private int quantite;  
 
     // Constructeur
-    public Commande(Long id_commande, Date date_commande, String etat, Long id_client, Long id_commerce) {
+ 
+    public Commande(Long id_commande, Date date_commande, String etat, Long id_client, Long id_commerce, Long id_produit, int quantite) {
         this.id_commande = id_commande;
         this.date_commande = date_commande;
         this.etat = etat;
         this.id_client = id_client;
+        this.id_produit = id_produit;
         this.id_commerce = id_commerce;
+        this.quantite = quantite;
     }
 
-    // Getters et Setters
+    public Commande() {
+		// TODO Auto-generated constructor stub
+	}
+
+	// Getters et Setters
     public Long getId_commande() {
         return id_commande;
     }
@@ -43,12 +52,20 @@ public class Commande {
         this.etat = etat;
     }
 
-    public Long getId_client() {
+    public Long getid_client () {
         return id_client;
     }
 
-    public void setId_client(Long id_client) {
+    public void setid_client(Long id_client) {
         this.id_client = id_client;
+    }
+
+    public Long getId_produit() {
+        return id_produit;
+    }
+
+    public void setId_produit(Long id_produit) {
+        this.id_produit = id_produit;
     }
 
     public Long getId_commerce() {
@@ -57,5 +74,13 @@ public class Commande {
 
     public void setId_commerce(Long id_commerce) {
         this.id_commerce = id_commerce;
+    }
+
+    public int getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(int quantite) {
+        this.quantite = quantite;
     }
 }
