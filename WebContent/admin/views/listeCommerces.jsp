@@ -27,7 +27,7 @@
         <jsp:include page="navbar.jsp" />
 
         <div class="container-fluid py-2">
-            <h3 class="text-center">Liste des Commerces</h3>
+            <h3 class="text-center">Liste des Commerçants</h3>
             <hr>
             <div class="text-left mb-3">
                 <a href="${pageContext.request.contextPath}/Gerercommercier?action=showaddform" class="btn btn-success">Ajouter un nouveau commerce</a>
@@ -38,7 +38,7 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Liste des Commerces</h6>
+                                <h6 class="text-white text-capitalize ps-3">Liste des Commerçants</h6>
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
@@ -76,11 +76,21 @@
                                                     </a>
                                                 </td>
                                                <td class="align-middle">
-												   <form action="${pageContext.request.contextPath}/Gerercommercier" method="post" style="display: inline;" onsubmit="return confirmDelete();">
-        <input type="hidden" name="id" value="${commerce.id_commerce}">
-        <input type="hidden" name="action" value="delete">
-        <input type="submit" value="Supprimer" class="btn btn-primary" data-toggle="tooltip" data-original-title="Supprimer le commerce">
-    </form>
+												   <c:if test="${commerce.hasOrders}">
+                <span class="text-warning">Ce commerce a des commandes et ne peut pas être supprimé</span>
+            </c:if>
+            <c:if test="${!commerce.hasOrders}">
+                <form action="${pageContext.request.contextPath}/Gerercommercier" method="post" style="display: inline;" onsubmit="return confirmDelete();">
+                    <input type="hidden" name="id" value="${commerce.id_commerce}">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="submit" value="Supprimer" class="btn btn-primary" data-toggle="tooltip" data-original-title="Supprimer le commerce">
+                </form>
+            </c:if>
+            
+            <c:if test="${not empty errorMessage}">
+    <div class="alert alert-danger">${errorMessage}</div>
+</c:if>
+            
 
 												</td>
 

@@ -152,7 +152,7 @@
             <button type="submit">Mon Panier</button>
         </form>
     </ul>
-       
+       <a style="color: white;" class="menu-item logout" href="${pageContext.request.contextPath}/AuthServlet?action=logout">Logout</a>
                 </div>
             </div>
         </div>

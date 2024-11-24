@@ -9,4 +9,25 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>FileUploadServlet</servlet-name>
+    <servlet-class>com.example.FileUploadServlet</servlet-class>
+    <multipart-config>
+        <!-- Dossier temporaire pour les fichiers uploadés -->
+        <location>/tmp</location>
+        <!-- Taille maximale d'un fichier -->
+        <max-file-size>5242880</max-file-size> <!-- 5MB -->
+        <!-- Taille maximale des données multipart -->
+        <max-request-size>20971520</max-request-size> <!-- 20MB -->
+        <!-- Seuil de taille avant écriture sur disque -->
+        <file-size-threshold>10240</file-size-threshold> <!-- 10KB -->
+    </multipart-config>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>FileUploadServlet</servlet-name>
+    <url-pattern>/upload</url-pattern>
+</servlet-mapping>
+  
 </web-app>

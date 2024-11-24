@@ -124,6 +124,8 @@
         .footer_menu ul li {
             margin: 0 10px;
         }
+        
+        
     </style>
 
     <!-- External Styles -->
@@ -135,23 +137,31 @@
  <div class="banner_bg_main">
         <div class="header_section_top">
             <div class="container">
-                <div class="custom_menu">
+               <div class="custom_menu">
     <% Long clientId = (Long) session.getAttribute("clientId"); %>
     
-    <ul>
+    <!-- Lien de déconnexion -->
+    
+    
+    <ul class="menu-list">
+        <!-- Formulaire pour afficher les commandes -->
+        <li class="menu-item">
+            <form action="commande?action=afficher&clientId=<%= clientId != null ? clientId : "" %>" method="post">
+                <button type="submit" class="menu-button">Mes commandes</button>
+            </form>
+        </li>
         
-        <form action="commande?action=afficher&clientId=<%= clientId != null ? clientId : "" %>" method="post">
-            <button type="submit">Mes commandes</button>
-        </form>
-        
-       
-        
-        <form action="panier?action=afficher&clientId=<%= clientId != null ? clientId : "" %>" method="post">
-            <button type="submit">Mon Panier</button>
-        </form>
+        <!-- Formulaire pour afficher le panier -->
+        <li class="menu-item">
+            <form action="panier?action=afficher&clientId=<%= clientId != null ? clientId : "" %>" method="post">
+                <button type="submit" class="menu-button">Mon Panier</button>
+            </form>
+        </li>
     </ul>
-       
-                </div>
+   
+   <a style="color: white;" class="menu-item logout" href="${pageContext.request.contextPath}/AuthServlet?action=logout">Logout</a>
+</div>
+
             </div>
         </div>
 

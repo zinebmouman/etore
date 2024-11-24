@@ -26,10 +26,10 @@
         <jsp:include page="navbar.jsp" />
         <div class="container mt-5">
             <h4 class="font-weight-bolder">Modifier Produit</h4>
-            <form action="${pageContext.request.contextPath}/GererProduit?action=update" method="post">
+            <form action="${pageContext.request.contextPath}/GererProduit?action=update" method="post" enctype="multipart/form-data">
                 <!-- ID du produit (champ caché) -->
                 <input type="hidden" name="id_produit" value="${produit.idProduit}" />
-                <input type="hidden" name="id_commerce" value="${id_commerce}" />
+                <input type="hidden" name="id_commerce" value="${param.id_commerce}" />
 
                 <!-- Champ Nom -->
                 <div class="input-group input-group-outline my-3">
@@ -47,6 +47,14 @@
                 <div class="input-group input-group-outline my-3">
                     <label class="form-label" for="description">Description</label>
                     <input type="text" class="form-control" id="description" name="description" value="${produit.description}" required>
+                </div>
+
+                <!-- Champ Image -->
+                <div class="input-group input-group-outline my-3">
+                    <label class="form-label" for="image">Image du produit</label>
+                    <img src="${pageContext.request.contextPath}/images/${produit.image}" alt="${produit.nom}"/>
+                    <input type="file" class="form-control" id="image" name="image" value="${produit.image}" accept="image/*">
+                    <small>Format accepté : JPG, PNG, JPEG</small>
                 </div>
 
                 <!-- Boutons de soumission et d'annulation -->
