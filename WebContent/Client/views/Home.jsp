@@ -152,7 +152,7 @@
         <!-- Banner Section -->
         <div class="banner_section layout_padding">
             <h1 class="banner_taital">Get Started <br>Your Favorite Shopping</h1>
-            <div class="buynow_bt"><a href="#produits">Buy Now</a></div>
+          
         </div>
     </div>
 
@@ -190,15 +190,7 @@
 
     <!-- Footer Section -->
     <div class="footer_section">
-        <div class="footer_menu">
-            <ul>
-                <li><a href="#">Best Sellers</a></li>
-                <li><a href="#">Gift Ideas</a></li>
-                <li><a href="#">New Releases</a></li>
-                <li><a href="#">Today's Deals</a></li>
-                <li><a href="#">Customer Service</a></li>
-            </ul>
-        </div>
+        
         <p>Help Line Number: <a href="#">+1 1800 1200 1200</a></p>
     </div>
 

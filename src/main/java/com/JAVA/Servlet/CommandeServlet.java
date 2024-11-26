@@ -45,7 +45,7 @@ public class CommandeServlet extends HttpServlet {
             request.setAttribute("commandes", commandes);
 
             // Rediriger vers la page JSP pour afficher les commandes
-            request.getRequestDispatcher("/Client/views/mesCommandes.jsp").forward(request, response);
+            request.getRequestDispatcher("/Client/views/mesCommandes.jsp?clientId=" + clientId).forward(request, response);
         } else {
             System.out.println("Client ID non valide. Redirection vers la page de connexion.");
             response.sendRedirect("login.jsp");
