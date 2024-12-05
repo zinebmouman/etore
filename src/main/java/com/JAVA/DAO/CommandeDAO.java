@@ -18,5 +18,6 @@ public interface CommandeDAO {
     List<Commande> getCommandesByClientId(Long clientId);
     List<Commande> getALLCommandes() throws SQLException; 
     void updateCommandeEtat(long idCommande, String nouvelEtat) throws SQLException;
+    List<Commande> getCommandesByCommerce(long id_commerce) throws SQLException;
 }
 

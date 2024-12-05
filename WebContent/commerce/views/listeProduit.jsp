@@ -29,7 +29,7 @@
             <h3 class="text-center">Liste des Produits</h3>
             <hr>
             <div class="text-left mb-3">
-                <a href="<c:url value='/GererProduit?action=add&id_commerce=${id_commerce}' />" class="btn btn-success">Ajouter un nouveau produit</a>
+                <a href="${pageContext.request.contextPath}/GererProduit?action=showAddForm&id_commerce=${param.id_commerce}" class="btn btn-success">Ajouter un nouveau produit</a>
             </div>
 
             <div class="row">
@@ -44,7 +44,7 @@
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
                                     <thead>
-                                        <tr>
+                                        <tr><th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nom</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix</th>
@@ -53,13 +53,20 @@
                                     </thead>
                                     <tbody>
                                         <c:forEach var="produit" items="${produits}">
-                                            <tr>
+                                            <tr><td><img src="${pageContext.request.contextPath}/images/${produit.image}" alt="${produit.nom}"/></td>
                                                 <td>${produit.nom}</td>
                                                 <td>${produit.description}</td>
                                                 <td>${produit.prix}</td>
                                                 <td>
-                                                    <a href="<c:url value='/GererProduit?action=edit&id_produit=${produit.idProduit}&id_commerce=${id_commerce}' />" class="btn btn-danger btn-sm">Modifier</a>
-                                                    <a href="<c:url value='/GererProduit?action=delete&id_produit=${produit.idProduit}&id_commerce=${id_commerce}' />" class="btn btn-primary btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');">Supprimer</a>
+                                                    <a href="<c:url value='/GererProduit?action=edit&id_produit=${produit.idProduit}&id_commerce=${param.id_commerce}' />" class="btn btn-danger btn-sm">Modifier</a>
+                                                   
+                                                <form action="${pageContext.request.contextPath}/GererProduit" method="post" style="display: inline;" onsubmit="return confirmDelete();">
+                    <input type="hidden" name="id_commerce" value="${param.id_commerce}">
+                     <input type="hidden" name="id_produit" value="${produit.idProduit}">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="submit" value="Supprimer" class="btn btn-primary" data-toggle="tooltip" data-original-title="Supprimer le commerce">
+                </form>
+                                                
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -72,7 +79,11 @@
             </div>
         </div>
     </main>
-
+<script>
+            function confirmDelete() {
+                return confirm("Êtes-vous sûr de vouloir supprimer ce commerce ?");
+            }
+        </script>
     <!-- Core JS Files -->
     <script src="${pageContext.request.contextPath}/commerce/assets/js/core/popper.min.js"></script>
     <script src="${pageContext.request.contextPath}/commerce/assets/js/core/bootstrap.min.js"></script>

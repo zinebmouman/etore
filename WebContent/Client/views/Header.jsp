@@ -323,63 +323,35 @@
     height: auto;
     margin-bottom: 20px;
 }
+/* Exemple de fond pour la page */
+body {
+    background-color: #f4f4f4; /* Remplacez par la couleur réelle de votre page */
+}
 
-
-/* Style commun pour tous les boutons */
+/* Boutons avec le même fond que la page */
 button, .btn, ul li a {
-    display: inline-block;
-    padding: 10px 20px; /* Taille uniforme */
-    font-size: 14px; /* Taille de police uniforme */
-    font-weight: bold;
-    border: 2px solid #007bff; /* Bordure uniforme */
+    background-color: inherit; /* Hérite la couleur de fond de la page */
+    color: white; /* Texte sombre pour contraster */
+    border: 2px solid #ccc; /* Bordure légère pour distinguer */
     border-radius: 5px; /* Coins arrondis */
-    background-color: #f8f9fa; /* Fond clair par défaut */
-    color: #007bff; /* Couleur du texte bleu par défaut */
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    transition: all 0.3s ease; /* Transition fluide pour hover */
+    padding: 10px 15px; /* Ajustement des marges */
+    font-size: 16px; /* Taille du texte */
+    font-weight: bold; /* Texte en gras */
+    cursor: pointer; /* Curseur pointer */
+    text-decoration: none; /* Pas de soulignement */
+    transition: all 0.3s ease; /* Animation fluide */
 }
 
-/* Effet au survol pour tous les boutons */
+/* Effet au survol */
 button:hover, .btn:hover, ul li a:hover {
-    background-color: #007bff; /* Fond bleu au survol */
-    color: white; /* Texte blanc au survol */
-    border-color: #0056b3; /* Bordure légèrement plus foncée */
+    background-color: #ddd; /* Fond légèrement plus foncé au survol */
+    color: #000; /* Texte plus sombre */
+    border-color: #999; /* Bordure plus foncée */
 }
 
-/* Styles spécifiques pour les liens Logout et Home */
-ul li a.logout, ul li a.home {
-    color: #007bff; /* Couleur texte spécifique */
+
 }
 
-/* Hover pour les liens Logout et Home */
-ul li a.logout:hover, ul li a.home:hover {
-    background-color: #007bff; /* Fond bleu au survol */
-    color: white; /* Texte blanc au survol */
-}
-
-/* Style des formulaires contenant des boutons */
-ul li form button {
-    padding: 10px 20px; /* Taille cohérente */
-    font-size: 14px; /* Police uniforme */
-    border: 2px solid #007bff;
-    border-radius: 5px;
-    background-color: #f8f9fa;
-    color: #007bff;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-ul li form button {
-    display: inline-block;
-    padding: 1.8 px 15px; /* Diminue la hauteur */
-    }
-/* Hover pour les boutons dans les formulaires */
-ul li form button:hover {
-    background-color: #007bff;
-    color: white;
-    border-color: #0056b3;
-}
 
         
     </style>
@@ -397,20 +369,20 @@ ul li form button:hover {
     
     <ul>
            <li>
-       <a class="btn btn-outline-primary btn-sm mb-0 me-3" href="${pageContext.request.contextPath}/listeProduits?clientId=<%= clientId != null ? clientId : "" %>">Home</a>
+       <a class="btn"  class="btn btn-outline-primary btn-sm mb-0 me-3" href="${pageContext.request.contextPath}/listeProduits?clientId=<%= clientId != null ? clientId : "" %>">Home</a>
 </li> 
         <li><form action="commande?action=afficher&clientId=<%= clientId != null ? clientId : "" %>" method="post">
-            <button type="submit">Mes commandes</button>
+            <button class="btn"  type="submit">Mes commandes</button>
         </form>
         </li>
        <li>
         
         <form action="panier?action=afficher&clientId=<%= clientId != null ? clientId : "" %>" method="post">
-            <button type="submit">Mon Panier</button>
+            <button class="btn"  type="submit">Mon Panier</button>
         </form>
         </li>
         <li>
-         <a class="btn btn-outline-primary btn-sm mb-0 me-3"  href="${pageContext.request.contextPath}/AuthServlet?action=logout" >Logout</a>
+         <a class="btn"  class="btn btn-outline-primary btn-sm mb-0 me-3"  href="${pageContext.request.contextPath}/AuthServlet?action=logout" >Logout</a>
          </li>
      
     </ul>

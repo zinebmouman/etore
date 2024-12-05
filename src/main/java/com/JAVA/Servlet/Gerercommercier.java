@@ -94,17 +94,25 @@ public class Gerercommercier extends HttpServlet {
 
     private void deleteCommerce(HttpServletRequest request, HttpServletResponse response) 
             throws SQLException, IOException, ServletException {
-        String idParam = request.getParameter("id"); // Récupère l'ID depuis la requête
-        System.out.println("Tentative de suppression pour ID : " + idParam); // Log pour vérifier l'ID
-
-        Long id_commerce = Long.parseLong(idParam); // Convertir l'ID en Long
-        boolean isDeleted = commerceDAO.deleteByID(id_commerce); // Tente de supprimer le commerce
-
+        String idParam = request.getParameter("id");
+        Long id_commerce = Long.parseLong(idParam);
+        
+        // Vérifie si le commerce a des commandes avant de supprimer
+        boolean hasOrders = commerceDAO.hasOrders(id_commerce);
+        
+        if (hasOrders) {
+            // Redirige avec un message indiquant que le commerce a des commandes
+            request.setAttribute("errorMessage", "Ce commerce a des commandes et ne peut pas être supprimé.");
+            listCommerces(request, response);
+            return;
+        }
+        
+        // Si aucune commande n'est associée, procéder à la suppression
+        boolean isDeleted = commerceDAO.deleteByID(id_commerce);
+        
         if (isDeleted) {
-            System.out.println("Commerce supprimé avec succès.");
-            response.sendRedirect(request.getContextPath() + "/Gerercommercier?action=list"); // Redirection après succès
+            response.sendRedirect(request.getContextPath() + "/Gerercommercier?action=list");
         } else {
-            System.out.println("Aucun commerce trouvé avec l'ID : " + id_commerce);
             throw new ServletException("Erreur lors de la suppression du commerce. Aucune ligne n'a été supprimée.");
         }
     }
@@ -114,15 +122,23 @@ public class Gerercommercier extends HttpServlet {
 
 
 
+
     private void listCommerces(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<Commerce> commerces = commerceDAO.getAll();
+            // Vérifie si chaque commerce a des commandes
+            for (Commerce commerce : commerces) {
+                boolean hasOrders = commerceDAO.hasOrders(commerce.getId_commerce());  // Vérifie si ce commerce a des commandes
+                commerce.setHasOrders(hasOrders);  // Ajoute cette information à l'objet commerce (création de la variable hasOrders dans la classe Commerce)
+            }
+            
             request.setAttribute("commerces", commerces);
             request.getRequestDispatcher("/admin/views/listeCommerces.jsp").forward(request, response);
         } catch (SQLException e) {
             throw new ServletException("Error retrieving commerces", e);
         }
     }
+
    
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)

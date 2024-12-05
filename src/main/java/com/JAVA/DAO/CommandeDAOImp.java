@@ -108,6 +108,35 @@ public class CommandeDAOImp implements CommandeDAO {
         return commandes;
     }
 
+    public List<Commande> getCommandesByCommerce(long id_commerce) throws SQLException {
+        String SQL = "SELECT * FROM commande WHERE id_commerce = ?";
+        List<Commande> commandes = new ArrayList<>();
+
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(SQL)) {
+            stmt.setLong(1, id_commerce);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Commande commande = new Commande();
+                    commande.setId_commande(rs.getLong("id_commande"));
+                    commande.setid_client(rs.getLong("id_client"));
+                    commande.setId_produit(rs.getLong("id_produit"));
+                    commande.setQuantite(rs.getInt("quantite"));
+                    commande.setId_commerce(rs.getLong("id_commerce"));
+                    commande.setDate_commande(rs.getDate("date_commande"));
+                    commande.setEtat(rs.getString("etat"));
+                    commandes.add(commande);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des commandes par id_commerce : " + e.getMessage());
+            throw e;
+        }
+        return commandes;
+    }
+
+    
     public void updateCommandeEtat(long idCommande, String nouvelEtat) throws DAOException {
         String SQL = "UPDATE commande SET etat = ? WHERE id_commande = ?";
 

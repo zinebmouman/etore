@@ -102,9 +102,10 @@ public class DAOFactory {
         return new ProduitDAOImp(this);
     }
     
-    public AuthDAO getAuthDAO() throws SQLException  {
+    public AuthDAO getAuthDAO() throws SQLException {
         return new AuthDAOImp(this);
     }
+
     public PanierDAO getPanierDao() {
         return new PanierDAOImpl(this);
     }

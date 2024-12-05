@@ -196,33 +196,36 @@
          </div>
          </div>
         
-         <div id="produits">
-<h1>Liste des Commandes</h1>
+        <div class="row">
+    <% Long clientId = (Long) session.getAttribute("clientId"); %>
 
-<table border="1">
-    <thead>
-        <tr>
-            <th>ID Commande</th>
-            <th>ID Client</th>
-            <th>ID Produit</th>
-            <th>Quantité</th>
-            <th>ID Commerce</th>
-            <th>Date Commande</th>
-            <th>État</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <c:forEach var="commande" items="${commandes}">
-            <tr>
-                <td>${commande.id_commande}</td>
-                <td>${commande.id_client}</td>
-                <td>${commande.id_produit}</td>
-                <td>${commande.quantite}</td>
-                <td>${commande.id_commerce}</td>
-                <td>${commande.date_commande}</td>
-                <td>${commande.etat}</td>
-                <td>
+    <c:choose>
+        <c:when test="${not empty commandes}">
+          
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID Commande</th>
+                        <th>ID Client</th>
+                        <th>ID Produit</th>
+                        <th>Quantité</th>
+                        <th>ID Commerce</th>
+                        <th>Date Commande</th>
+                        <th>État</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="commande" items="${commandes}">
+                        <tr>
+                            <td>${commande.id_commande}</td>
+                            <td>${commande.id_client}</td>
+                            <td>${commande.id_produit}</td>
+                            <td>${commande.quantite}</td>
+                            <td>${commande.id_commerce}</td>
+                            <td>${commande.date_commande}</td>
+                            <td>${commande.etat}</td>
+                            <td>
                     <form action="LivreurCommande" method="post">
                         <input type="hidden" name="idCommande" value="${commande.id_commande}">
                         <input type="hidden" name="action" value="updateEtat">
@@ -233,11 +236,17 @@
                         <button type="submit">Mettre à jour</button>
                     </form>
                 </td>
-            </tr>
-        </c:forEach>
-    </tbody>
-</table>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:when>
+        <c:otherwise>
+            <p>Aucune commande trouvée.</p>
+        </c:otherwise>
+    </c:choose>
 </div>
+
 
   <!-- Footer Section -->
     <div class="footer_section">

@@ -26,6 +26,25 @@
     background-color: #4cae4c;
     
 }
+/* Conteneur des images */
+.img {
+    width: 100%; /* Prend toute la largeur de la colonne */
+    height: 200px; /* Hauteur fixe pour uniformité */
+    display: flex; /* Centre l'image à l'intérieur */
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Coupe tout dépassement si nécessaire */
+    background-color: #f9f9f9; /* Optionnel : couleur de fond */
+    border-radius: 5px; /* Coins arrondis */
+}
+
+/* Images */
+.img img {
+    max-width: 100%; /* Adapte l'image à la largeur maximale */
+    max-height: 100%; /* Adapte l'image à la hauteur maximale */
+    object-fit: contain; /* Ajuste l'image pour qu'elle reste entièrement visible */
+}
+
 
 </style>
  <body>

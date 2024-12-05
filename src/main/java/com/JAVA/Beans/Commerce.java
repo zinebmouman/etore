@@ -6,6 +6,7 @@ public class Commerce {
     private String adresse;
     private String contact;
     private String type_commerce;
+    private boolean hasOrders;
 
     // Constructeur
     public Commerce(Long id_commerce, String nom, String adresse, String contact, String type_commerce) {
@@ -55,5 +56,12 @@ public class Commerce {
 
     public void setType_commerce(String type_commerce) {
         this.type_commerce = type_commerce;
+    }
+    public boolean isHasOrders() {
+        return hasOrders;
+    }
+
+    public void setHasOrders(boolean hasOrders) {
+        this.hasOrders = hasOrders;
     }
 }

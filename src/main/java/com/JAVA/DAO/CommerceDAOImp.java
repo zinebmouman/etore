@@ -12,7 +12,8 @@ import java.util.List;
 public class CommerceDAOImp implements CommerceDAO {
     private static final String INSERT_COMMERCE_SQL = "INSERT INTO commerce (nom, adresse, contact, type_commerce) VALUES (?, ?, ?, ?);";
     private static final String UPDATE_COMMERCE_SQL = "UPDATE commerce SET nom = ?, adresse = ?, contact = ?, type_commerce = ? WHERE id_commerce = ?;";
-    private static final String DELETE_COMMERCE_BY_ID_SQL = "DELETE FROM commerce WHERE id_commerce = ?;";
+    private static final String DELETE_COMMERCE_BY_ID_SQL = "DELETE FROM commerce WHERE id_commerce = ?;"
+    		+ "";
     private static final String SELECT_COMMERCE_BY_ID_SQL = "SELECT * FROM commerce WHERE id_commerce = ?;";
     private static final String SELECT_ALL_COMMERCE_SQL = "SELECT * FROM commerce;";
 
@@ -134,5 +135,22 @@ public class CommerceDAOImp implements CommerceDAO {
             resultSet.getString("type_commerce")
         );
     }
+    
+    public boolean hasOrders(Long id) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM commande WHERE id_commerce = ?";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0; // Retourne vrai si des commandes sont associées
+            }
+        }
+        return false;
+    }
+
+
+
+
 
 }

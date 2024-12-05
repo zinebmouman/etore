@@ -13,4 +13,5 @@ public interface CommerceDAO {
     Boolean deleteByID(Long id) throws SQLException;
     Commerce getById(Long id) throws SQLException;
     List<Commerce> getAll() throws SQLException;
+	boolean hasOrders(Long id) throws SQLException;
 }

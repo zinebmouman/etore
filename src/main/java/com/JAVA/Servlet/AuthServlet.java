@@ -19,37 +19,42 @@ public class AuthServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private AuthDAO authDAO;
 
+    
     @Override
-    public void init() {
+    public void init() throws ServletException {
         try {
             authDAO = DAOFactory.getInstance().getAuthDAO();
         } catch (DAOConfigurationException | SQLException e) {
-            e.printStackTrace(); 
+            throw new ServletException("Erreur lors de l'initialisation de AuthDAO", e);
         }
     }
 
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Vérifier si la requête est une déconnexion
         String action = request.getParameter("action");
-        if ("logout".equals(action)) {
-            // Invalidation de la session
+
+        if ("logout".equalsIgnoreCase(action)) {
             HttpSession session = request.getSession(false);
             if (session != null) {
                 session.invalidate();
             }
-            // Rediriger vers la page de connexion après la déconnexion
-            response.sendRedirect("/jee_liv/general/Sign_in.jsp");
+            response.sendRedirect("/jee_liv/general/Sign_in.jsp?message=LogoutSuccess");
         } else {
-            // Si ce n'est pas une déconnexion, rediriger vers la page de connexion par défaut
             response.sendRedirect("/jee_liv/general/Sign_in.jsp");
         }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+
+        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+            response.sendRedirect("login.jsp?error=EmptyFields");
+            return;
+        }
 
         User user = authDAO.authenticate(email, password);
 
@@ -62,18 +67,18 @@ public class AuthServlet extends HttpServlet {
             // Redirection selon le type d'utilisateur
             switch (user.getType()) {
                 case 1:
-                    response.sendRedirect("admin/views/index.jsp?user_id=" + userId); // Ajout de user_id à l'URL
+                    response.sendRedirect("admin/views/index.jsp?user_id=" + userId);
                     break;
                 case 2:
-                    response.sendRedirect("commerce/views/index.jsp?user_id=" + userId); // Ajout de user_id à l'URL
+                    response.sendRedirect("commerce/views/index.jsp?id_commerce=" + userId);
                     break;
                 case 3:
-                	session.setAttribute("LivreurId", userId);
-                    response.sendRedirect("LivreurCommande?LivreurId=" + userId); // Ajout de user_id à l'URL
+                    session.setAttribute("LivreurId", userId);
+                    response.sendRedirect("LivreurCommande?LivreurId=" + userId);
                     break;
                 case 4:
-                	session.setAttribute("clientId", userId);
-                	response.sendRedirect("listeProduits?clientId=" + userId);
+                    session.setAttribute("clientId", userId);
+                    response.sendRedirect("listeProduits?clientId=" + userId);
                     break;
                 default:
                     response.sendRedirect("login.jsp?error=InvalidType");
@@ -83,4 +88,5 @@ public class AuthServlet extends HttpServlet {
             response.sendRedirect("login.jsp?error=InvalidCredentials");
         }
     }
+
 }

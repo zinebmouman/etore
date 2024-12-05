@@ -10,6 +10,9 @@ public class Commande {
     private Long id_commerce;
     private Long id_produit;
     private int quantite;  
+    private Produit produit;
+
+    
 
     // Constructeur
  
@@ -82,5 +85,13 @@ public class Commande {
 
     public void setQuantite(int quantite) {
         this.quantite = quantite;
+    }
+    
+    public Produit getProduit() {
+        return produit;
+    }
+
+    public void setProduit(Produit produit) {
+        this.produit = produit;
     }
 }

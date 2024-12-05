@@ -155,38 +155,25 @@
           
         </div>
     </div>
-
-    <!-- Product Section -->
-    <div id="produits">
-        <h1>Liste de Tous les Produits</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Prix</th>
-                    <th>Description</th>
-                    <th>Image</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="produit" items="${produits}">
-                    <tr>
-                        <td>${produit.nom}</td>
-                        <td>${produit.prix}</td>
-                        <td>${produit.description}</td>
-                        <td>
-                            <c:if test="${not empty produit.image}">
-                                <img src="${produit.image}" alt="${produit.nom}">
-                            </c:if>
-                            <c:if test="${empty produit.image}">
-                                Pas d'image
-                            </c:if>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-    </div>
+<div class="row">
+    <c:forEach var="produit" items="${produits}">
+        <div class="col-lg-4 col-sm-4">
+            <div class="box_main">
+                <h4 class="shirt_text">${produit.nom}</h4>
+                <p class="price_text">Prix <span style="color: #262626;">${produit.prix} MAD</span></p>
+                <div class="img">
+                    <c:if test="${not empty produit.image}">
+                        <img src="${produit.image}" alt="${produit.nom}" style="width: 100%; height: auto;">
+                    </c:if>
+                    <c:if test="${empty produit.image}">
+                        <img src="images/default-img.png" alt="Image non disponible" style="width: 100%; height: auto;">
+                    </c:if>
+                </div>
+               
+            </div>
+        </div>
+    </c:forEach>
+</div>
 
     <!-- Footer Section -->
     <div class="footer_section">
